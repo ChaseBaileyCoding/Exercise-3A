@@ -10,6 +10,7 @@ This code turns the button on when it is pressed and turns it off when it is pre
 
 #define LED_PIN GPIO_NUM_10     // Choose your LED pin
 #define BUTTON_PIN GPIO_NUM_9     // Choose your button pin
+#define BUTTON_PIN2 GPIO_NUM_11
 
 void app_main(void) {
     gpio_reset_pin(LED_PIN);
@@ -20,18 +21,21 @@ void app_main(void) {
     gpio_reset_pin(BUTTON_PIN);
     gpio_set_direction(BUTTON_PIN, GPIO_MODE_INPUT);
     gpio_pulldown_en(BUTTON_PIN);
+    gpio_reset_pin(BUTTON_PIN2);
+    gpio_set_direction(BUTTON_PIN2, GPIO_MODE_INPUT);
+    gpio_pulldown_en(BUTTON_PIN2);
     // TO-DO: Configure LED output
     // TO-DO: Configure Button input
     bool isOn = false;
     bool isPressed = false;
     while (1) {
     // TO-DO: Implement LED toggle and button logic here
-        if(!isOn && gpio_get_level(BUTTON_PIN) && !isPressed){
+        if(!isOn && gpio_get_level(BUTTON_PIN) && !isPressed && gpio_get_level(BUTTON_PIN2)){
             gpio_set_level(LED_PIN, 1);
             isOn = true;
             isPressed = true;
         }
-        else if(gpio_get_level(BUTTON_PIN) && !isPressed){
+        else if(gpio_get_level(BUTTON_PIN) && !isPressed && gpio_get_level(BUTTON_PIN2)){
             gpio_set_level(LED_PIN, 0);
             isOn = false;
             isPressed = true;
